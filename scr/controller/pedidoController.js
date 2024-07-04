@@ -16,10 +16,11 @@ async function getAllPedido(req, res) {
 }
 
 async function createPedido(req, res){
-    const { idUsuario, idProduto, idEstabelecimento, quantidade, valorTotal } = req.body;
+    const { idUsuario, idProduto, idEstabelecimento, quantidade } = req.body;
+    console.log(req.body)
 
     try{
-        await pedidoService.createPedido(idUsuario, idProduto, idEstabelecimento, quantidade, valorTotal);
+        await pedidoService.createPedido(idUsuario, idProduto, idEstabelecimento, quantidade);
 
         res.status(201).json({
             message: "Success!"

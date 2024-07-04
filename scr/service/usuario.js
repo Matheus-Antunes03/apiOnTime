@@ -12,13 +12,20 @@ async function getAllUsuario() {
 }
 
 async function createUsuario(nome, dataNasc, telefone, cpf) {
-    const connection = await mysql.createConnection(databaseConfig);
+    console.log(nome, dataNasc, telefone, cpf)
+    let connection;
+    try {
+        connection = await mysql.createConnection(databaseConfig);
 
-    const insertUsuario = "INSERT INTO usuario(nome, dataNasc, telefone, cpf) VALUES(?, ?, ?, ?)";
+        const insertUsuario = "INSERT INTO usuario(nome, dataNasc, telefone, cpf) VALUES(?, ?, ?, ?)";
 
-    await connection.query(insertUsuario, [nome, dataNasc, telefone, cpf]);
-
-    await connection.end();
+        await connection.query(insertUsuario, [nome, dataNasc, telefone, cpf]);
+    } catch (error) {
+        console.error("Erro ao inserir usuario:", error);
+        throw error;
+    } finally {
+        if (connection) await connection.end();
+    }
 }
 
 async function updateUsuario(id, nome, dataNasc, telefone, cpf) {
@@ -55,4 +62,4 @@ module.exports = {
     updateUsuario,
     deleteUsuario,
     getUsuarioById,
-}
+};

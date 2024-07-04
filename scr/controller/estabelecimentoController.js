@@ -15,6 +15,7 @@ async function getAllEstabelecimento(req, res) {
 
 async function createEstabelecimento(req, res){
 const { nome, endereco, inscricaoMunicipal, cnpj } = req.body;
+console.log(req.body);
 
 try{
     await estabelecimentoService.createEstabelecimento(nome, endereco, inscricaoMunicipal, cnpj);

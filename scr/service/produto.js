@@ -12,13 +12,18 @@ async function getAllProduto() {
 }
 
 async function createProduto(nome, marca, preco, dataValidade, peso) {
-    const connection = await mysql.createConnection(databaseConfig);
-
-    const insertProduto = "INSERT INTO produto(nome, marca, preco, dataValidade, peso) VALUES(?, ?, ?, ?, ?)";
-
-    await connection.query(insertProduto, [nome, marca, preco, dataValidade, peso]);
-
-    await connection.end();
+    console.log(nome, marca, preco, dataValidade, peso)
+    let connection;
+    try {
+        connection = await mysql.createConnection(databaseConfig);
+        const insertProduto = "INSERT INTO produto(nome, marca, preco, dataValidade, peso) VALUES(?, ?, ?, ?, ?)";
+        await connection.query(insertProduto, [nome, marca, preco, dataValidade, peso]);
+    } catch (error) {
+        console.error("Erro ao inserir produto:", error);
+        throw error;
+    } finally {
+        if (connection) await connection.end();
+    }
 }
 
 async function updateProduto(id, nome, marca, preco, dataValidade, peso) {
@@ -55,4 +60,4 @@ module.exports = {
     updateProduto,
     deleteProduto,
     getProdutoById,
-}
+};

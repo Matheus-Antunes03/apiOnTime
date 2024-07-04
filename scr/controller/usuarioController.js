@@ -17,6 +17,7 @@ async function getAllUsuario(req, res) {
 
 async function createUsuario(req, res){
     const { nome, dataNasc, telefone, cpf } = req.body;
+    console.log(req.body)
 
     try{
         await usuarioService.createUsuario(nome, dataNasc, telefone, cpf);

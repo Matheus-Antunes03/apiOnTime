@@ -12,13 +12,18 @@ async function getAllEstabelecimento() {
 }
 
 async function createEstabelecimento(nome, endereco, inscricaoMunicipal, cnpj) {
-    const connection = await mysql.createConnection(databaseConfig);
-
-    const insertEstabelecimento = "INSERT INTO estabelecimento(nome, endereco, inscricaoMunicipal, cnpj) VALUES(?, ?, ?, ?)";
-
-    await connection.query(insertEstabelecimento, [nome, endereco, inscricaoMunicipal, cnpj]);
-
-    await connection.end();
+    console.log(nome, endereco, inscricaoMunicipal, cnpj)
+    let connection;
+    try {
+        connection = await mysql.createConnection(databaseConfig);
+        const insertEstabelecimento = "INSERT INTO estabelecimento(nome, endereco, inscricaoMunicipal, cnpj) VALUES(?, ?, ?, ?)";
+        await connection.query(insertEstabelecimento, [nome, endereco, inscricaoMunicipal, cnpj]);
+    } catch (error) {
+        console.error("Erro ao inserir estabelecimento:", error);
+        throw error;
+    } finally {
+        if (connection) await connection.end();
+    }
 }
 
 async function updateEstabelecimento(id, nome, endereco, inscricaoMunicipal, cnpj) {

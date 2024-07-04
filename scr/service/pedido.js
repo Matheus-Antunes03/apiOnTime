@@ -12,13 +12,18 @@ async function getAllPedido() {
 }
 
 async function createPedido(idUsuario, idProduto, idEstabelecimento, quantidade) {
-    const connection = await mysql.createConnection(databaseConfig);
-
-    const insertPedido = "INSERT INTO pedido(idUsuario, idProduto, idEstabelecimento, quantidade) VALUES(?, ?, ?, ?)";
-
-    await connection.query(insertPedido, [idUsuario, idProduto, idEstabelecimento, quantidade]);
-
-    await connection.end();
+    console.log(idUsuario, idProduto, idEstabelecimento, quantidade);
+    let connection;
+    try {
+        connection = await mysql.createConnection(databaseConfig);
+        const insertPedido = "INSERT INTO pedido(idUsuario, idProduto, idEstabelecimento, quantidade) VALUES(?, ?, ?, ?)";
+        await connection.query(insertPedido, [idUsuario, idProduto, idEstabelecimento, quantidade]);
+    } catch (error) {
+        console.error("Erro ao inserir pedido:", error);
+        throw error;
+    } finally {
+        if (connection) await connection.end();
+    }
 }
 
 async function updatePedido(id, idUsuario, idProduto, idEstabelecimento, quantidade) {
@@ -55,4 +60,4 @@ module.exports = {
     updatePedido,
     deletePedido,
     getPedidoById,
-}
+};

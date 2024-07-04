@@ -16,10 +16,10 @@ async function getAllProduto(req, res) {
 }
 
 async function createProduto(req, res){
-    const { nome, marca, preco, dataValidade, peso } = req.body;
+    const { nome, marca, precoOriginal, dataValidade, peso } = req.body;
 
     try{
-        await produtoService.createProduto(nome, marca, preco, dataValidade, peso);
+        await produtoService.createProduto(nome, marca, precoOriginal, dataValidade, peso);
 
         res.status(201).json({
             message: "Success!"
